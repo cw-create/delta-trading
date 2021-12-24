@@ -17,12 +17,57 @@ const BuyList = () => {
                 const stockData = await axios.get(
                     `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbols[i]}&apikey=${API_KEY}`
                 );
-
+                console.log({
+                    'companyName': stockData.data["Name"],
+                    'description': stockData.data["Description"], 
+                    'industry': stockData.data["Industry"], 
+                    'EBITDA': stockData.data["EBITDA"], 
+                    "symbol": stockData.data["Symbol"],
+                    "PEG": stockData.data["PEGRatio"],
+                    'bookValue': stockData.data["BookValue"], 
+                    'divPerShare': stockData.data["DividendPerShare"], 
+                    'divYield': stockData.data["DividendYield"], 
+                    'EPS': stockData.data["EPS"], 
+                    'ROA': stockData.data["ReturnOnAssetsTTM"], 
+                    'ROE': stockData.data["ReturnOnEquityTTM"], 
+                    'quarterEarningsGrowth': stockData.data["QuarterlyEarningsGrowthYOY"], 
+                    'quarterRevenueGrowth': stockData.data["QuarterlyRevenueGrowthYOY"], 
+                    'targetPrice': stockData.data["AnalystTargetPrice"], 
+                    'trailingPE': stockData.data["TrailingPE"], 
+                    'forwardPE': stockData.data["ForwardPE"], 
+                    'priceToSales': stockData.data["PriceToSalesRatioTTM"], 
+                    'priceToBook': stockData.data["PriceToBookRatio"], 
+                    'yearlyHigh': stockData.data["52WeekHigh"], 
+                    'yearlyLow': stockData.data["52WeekLow"],
+                    'fiftyDayMovingAvg': stockData.data["50DayMovingAverage"], 
+                    'twoHundredDayMovingAvg': stockData.data["200DayMovingAverage"]
+                });
                 axios.post(
                     'http://localhost:8000/metrics/stock/', 
                     {
+                        'companyName': stockData.data["Name"],
+                        'description': stockData.data["Description"], 
+                        'industry': stockData.data["Industry"], 
+                        'EBITDA': stockData.data["EBITDA"], 
                         "symbol": stockData.data["Symbol"],
-                        "PEG": stockData.data["PEGRatio"]
+                        "PEG": stockData.data["PEGRatio"],
+                        'bookValue': stockData.data["BookValue"], 
+                        'divPerShare': stockData.data["DividendPerShare"], 
+                        'divYield': stockData.data["DividendYield"], 
+                        'EPS': stockData.data["EPS"], 
+                        'ROA': stockData.data["ReturnOnAssetsTTM"], 
+                        'ROE': stockData.data["ReturnOnEquityTTM"], 
+                        'quarterEarningsGrowth': stockData.data["QuarterlyEarningsGrowthYOY"], 
+                        'quarterRevenueGrowth': stockData.data["QuarterlyRevenueGrowthYOY"], 
+                        'targetPrice': stockData.data["AnalystTargetPrice"], 
+                        'trailingPE': stockData.data["TrailingPE"], 
+                        'forwardPE': stockData.data["ForwardPE"], 
+                        'priceToSales': stockData.data["PriceToSalesRatioTTM"], 
+                        'priceToBook': stockData.data["PriceToBookRatio"], 
+                        'yearlyHigh': stockData.data["52WeekHigh"], 
+                        'yearlyLow': stockData.data["52WeekLow"],
+                        'fiftyDayMovingAvg': stockData.data["50DayMovingAverage"], 
+                        'twoHundredDayMovingAvg': stockData.data["200DayMovingAverage"]
                     }
                 )
             }
