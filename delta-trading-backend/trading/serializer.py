@@ -8,7 +8,6 @@ class StockSerializer(serializers.ModelSerializer):
             'companyName',
             'description', 
             'industry', 
-            'EBITDA', 
             'symbol', 
             'PEG', 
             'bookValue', 

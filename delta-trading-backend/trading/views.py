@@ -19,9 +19,11 @@ def stock_list(request):
     elif request.method == 'POST':
         serializer = StockSerializer(data=request.data)
         if serializer.is_valid():
-            if Stock.objects.filter(symbol = serializer.validated_data.get('symbol')).exists():
+            Stock.objects.filter(symbol="0").delete()
+            if serializer.validated_data.get('symbol') == "0":
+                Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            elif Stock.objects.filter(symbol = serializer.validated_data.get('symbol')).exists():
                 Stock.objects.filter(symbol=serializer.validated_data.get('symbol')).update(PEG=serializer.validated_data["PEG"])
-                Stock.objects.filter(symbol=serializer.validated_data.get('symbol')).update(PEG=serializer.validated_data["EBITDA"])
                 Stock.objects.filter(symbol=serializer.validated_data.get('symbol')).update(PEG=serializer.validated_data["bookValue"])
                 Stock.objects.filter(symbol=serializer.validated_data.get('symbol')).update(PEG=serializer.validated_data["divPerShare"])
                 Stock.objects.filter(symbol=serializer.validated_data.get('symbol')).update(PEG=serializer.validated_data["divYield"])

@@ -9,7 +9,6 @@ from django.db import models
 
 class Stock(models.Model):
     # stockList = models.ForeignKey(StockList, on_delete=models.CASCADE, null=True)
-    EBITDA = models.IntegerField(default=0)
     symbol = models.CharField(max_length=200, default='0')
     companyName = models.CharField(max_length=200, default='0')
     description = models.CharField(max_length=5000, default='0')
