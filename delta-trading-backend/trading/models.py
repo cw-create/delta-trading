@@ -10,7 +10,7 @@ from django.db import models
 class Stock(models.Model):
     # stockList = models.ForeignKey(StockList, on_delete=models.CASCADE, null=True)
     symbol = models.CharField(max_length=200)
-    PEG = models.DecimalField(max_digits = 20, decimal_places = 2, default=0.00)
+    PEG = models.DecimalField(max_digits = 20, decimal_places = 3, default=0.00)
 
     def __str__(self):
         return self.symbol
