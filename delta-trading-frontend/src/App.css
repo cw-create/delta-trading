@@ -1,3 +1,8 @@
 body {
     background-color: #1F3A60;
 }
+
+.home-page {
+    display: flex;
+    justify-content: center;
+}
