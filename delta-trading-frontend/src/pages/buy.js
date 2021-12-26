@@ -9,6 +9,27 @@ const BuyList = () => {
     const API_KEY = "C3I3N8P9TBOJ1U6A";
     //https://www.alphavantage.co/query?function=OVERVIEW&symbol={symbol}&apikey={API_KEY}
 
+    const getScores = () => {
+        var data = stocks;
+        var cScore = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (data["PEG"] !== ERRORCONST) { // PEG Ratio below 1 is favourable, while PEG above 2 is too "expensive"
+                var PEGvalue = data[i]["PEG"];
+                if (PEGvalue < 1 && PEGvalue > 0) {
+                    cScore += 1 - PEGvalue;
+                }
+                else if (PEGvalue > 2) {
+                    cScore -= PEGvalue / 20;
+                }
+            }
+            data[i]["cScore"] = cScore;
+            cScore = 0;
+        }
+        setStocks(data);
+        console.log(stocks);
+    }
+
+
     const updateData = () => {
         const update = async () => {
             for (var i = 0; i < stocksToTrack.length; i++) {
@@ -97,6 +118,7 @@ const BuyList = () => {
     return (
         <div>
             <button onClick={updateData}>Update Data</button>
+            <button onClick={getScores}>Update Scores</button>
             <div className='stock-list-wrapper'>
                 {
                     stocks.map((stock, index) => {
