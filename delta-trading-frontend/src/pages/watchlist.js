@@ -13,12 +13,22 @@ const WatchList = () => {
         var cScore = 0;
         for (var i = 0; i < data.length; i++) {
             if (data["PEG"] !== ERRORCONST) { // PEG Ratio below 1.2 is favourable, while PEG above 2 is too "expensive"
-                var PEGvalue = data[i]["PEG"];
+                var PEGvalue = parseInt(data[i]["PEG"], 10);
                 if (PEGvalue < 1.2 && PEGvalue > 0) {
                     cScore += 1.2 - PEGvalue;
                 }
                 else if (PEGvalue > 2) {
                     cScore -= PEGvalue / 20;
+                }
+
+                var ROAvalue = data[i]["ROA"];
+                if (ROAvalue > 0) {
+                    cScore += ROAvalue * 1.5;
+                }
+
+                var ROEvalue = data[i]["ROE"];
+                if (ROEvalue > 0.1) {
+                    cScore += ROEvalue / 5;
                 }
             }
             data[i]["cScore"] = cScore.toFixed(2);
