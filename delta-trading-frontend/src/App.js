@@ -1,10 +1,10 @@
 import './App.css'
-import BuyList from './pages/buy.js'
+import WatchList from './pages/watchlist.js'
 
 function App() {
   return (
     <div className='home-page'>
-      <BuyList />
+      <WatchList />
     </div>
   );
 }
