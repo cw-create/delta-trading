@@ -1,13 +1,33 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Stock from './stock.js'
-import './buy.css'
+import './watchlist.css'
 import { stocksToTrack, metrics, ERRORCONST } from '../data.js';
 
-const BuyList = () => {
+const WatchList = () => {
     const [ stocks, setStocks ] = useState([]);
     const API_KEY = "C3I3N8P9TBOJ1U6A";
     //https://www.alphavantage.co/query?function=OVERVIEW&symbol={symbol}&apikey={API_KEY}
+
+    const getScores = (data) => {
+        var cScore = 0;
+        for (var i = 0; i < data.length; i++) {
+            if (data["PEG"] !== ERRORCONST) { // PEG Ratio below 1.2 is favourable, while PEG above 2 is too "expensive"
+                var PEGvalue = data[i]["PEG"];
+                if (PEGvalue < 1.2 && PEGvalue > 0) {
+                    cScore += 1.2 - PEGvalue;
+                }
+                else if (PEGvalue > 2) {
+                    cScore -= PEGvalue / 20;
+                }
+            }
+            data[i]["cScore"] = cScore.toFixed(2);
+            cScore = 0;
+        }
+        data.sort((a, b) => parseFloat(b.cScore) - parseFloat(a.cScore));
+        setStocks(data);
+    }
+
 
     const updateData = () => {
         const update = async () => {
@@ -85,23 +105,21 @@ const BuyList = () => {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            const resultData = await axios.get(
-                'http://localhost:8000/metrics/stock/'
-            );
-            setStocks(resultData.data);
-        };
-        fetchData();
+        axios.get('http://localhost:8000/metrics/stock/').then((res) => {
+            getScores(res.data);
+        })
     }, []);
 
     return (
         <div>
             <button onClick={updateData}>Update Data</button>
+            <button onClick={() => getScores(stocks)}>Update Scores</button>
             <div className='stock-list-wrapper'>
                 {
                     stocks.map((stock, index) => {
                         return <div className='stock-wrapper' key={index}>
-                            <Stock 
+                            <Stock
+                                cScore={stock["cScore"]}
                                 companyName={stock["companyName"]}
                                 description={stock["description"]} 
                                 industry = {stock["Industry"]} 
@@ -133,4 +151,4 @@ const BuyList = () => {
     );
 }
 
-export default BuyList;
+export default WatchList;
