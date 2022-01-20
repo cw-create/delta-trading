@@ -4,3 +4,13 @@
     justify-content: center;
     gap: 20px;
 }
+
+.watchlist-wrapper {
+    display:flex;
+    flex-direction: row;
+    gap: 100px;
+}
+
+.update-button-wrapper {
+    margin-top: 22px;
+}
