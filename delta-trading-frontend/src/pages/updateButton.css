@@ -1,0 +1,4 @@
+.update-button {
+    display:flex;
+    flex-direction: column;
+}
